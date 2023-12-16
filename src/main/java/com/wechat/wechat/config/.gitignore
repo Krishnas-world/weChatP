@@ -1,6 +1,7 @@
-package com.wechat.wechat.config;
+package com.alibou.websocket.config;
 
-import com.wechat.wechat.chat.*;
+import com.alibou.websocket.chat.ChatMessage;
+import com.alibou.websocket.chat.MessageType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -12,7 +13,7 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class WebsocketEventListener {
+public class WebSocketEventListener {
 
     private final SimpMessageSendingOperations messagingTemplate;
 
@@ -23,7 +24,7 @@ public class WebsocketEventListener {
         if (username != null) {
             log.info("user disconnected: {}", username);
             var chatMessage = ChatMessage.builder()
-                    .type(MessageType.LEAVER)
+                    .type(MessageType.LEAVE)
                     .sender(username)
                     .build();
             messagingTemplate.convertAndSend("/topic/public", chatMessage);
